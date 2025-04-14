@@ -16,7 +16,7 @@ public class HTTPTokener extends JSONTokener {
      * Construct an HTTPTokener from a string.
      * @param string A source string.
      */
-    public HTTPTokener(String string) {
+    public HTTPTokener(final String string) {
         super(string);
     }
 
@@ -28,8 +28,8 @@ public class HTTPTokener extends JSONTokener {
      */
     public String nextToken() throws JSONException {
         char c;
-        char q;
-        StringBuilder sb = new StringBuilder();
+        final char q;
+        final StringBuilder sb = new StringBuilder();
         do {
             c = next();
         } while (Character.isWhitespace(c));

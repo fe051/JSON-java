@@ -32,7 +32,7 @@ public class JSONParserConfiguration extends ParserConfiguration {
 
     @Override
     protected JSONParserConfiguration clone() {
-        JSONParserConfiguration clone = new JSONParserConfiguration();
+        final JSONParserConfiguration clone = new JSONParserConfiguration();
         clone.overwriteDuplicateKey = overwriteDuplicateKey;
         clone.strictMode = strictMode;
         clone.maxNestingDepth = maxNestingDepth;
@@ -53,7 +53,7 @@ public class JSONParserConfiguration extends ParserConfiguration {
     @SuppressWarnings("unchecked")
     @Override
     public JSONParserConfiguration withMaxNestingDepth(final int maxNestingDepth) {
-        JSONParserConfiguration clone = this.clone();
+        final JSONParserConfiguration clone = this.clone();
         clone.maxNestingDepth = maxNestingDepth;
 
         return clone;
@@ -68,7 +68,7 @@ public class JSONParserConfiguration extends ParserConfiguration {
      * @return The existing configuration will not be modified. A new configuration is returned.
      */
     public JSONParserConfiguration withOverwriteDuplicateKey(final boolean overwriteDuplicateKey) {
-        JSONParserConfiguration clone = this.clone();
+        final JSONParserConfiguration clone = this.clone();
         clone.overwriteDuplicateKey = overwriteDuplicateKey;
 
         return clone;
@@ -83,7 +83,7 @@ public class JSONParserConfiguration extends ParserConfiguration {
      * @return The existing configuration will not be modified. A new configuration is returned.
      */
     public JSONParserConfiguration withUseNativeNulls(final boolean useNativeNulls) {
-        JSONParserConfiguration clone = this.clone();
+        final JSONParserConfiguration clone = this.clone();
         clone.useNativeNulls = useNativeNulls;
 
         return clone;
@@ -112,7 +112,7 @@ public class JSONParserConfiguration extends ParserConfiguration {
      * @return a new JSONParserConfiguration instance with the updated strict mode setting
      */
     public JSONParserConfiguration withStrictMode(final boolean mode) {
-        JSONParserConfiguration clone = this.clone();
+        final JSONParserConfiguration clone = this.clone();
         clone.strictMode = mode;
 
         return clone;

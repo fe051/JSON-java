@@ -26,7 +26,7 @@ public class JSONMLParserConfiguration extends ParserConfiguration {
      */
     public JSONMLParserConfiguration() {
         super();
-        this.maxNestingDepth = DEFAULT_MAXIMUM_NESTING_DEPTH;
+        this.maxNestingDepth = JSONMLParserConfiguration.DEFAULT_MAXIMUM_NESTING_DEPTH;
     }
 
     /**
@@ -63,7 +63,7 @@ public class JSONMLParserConfiguration extends ParserConfiguration {
 
     @SuppressWarnings("unchecked")
     @Override
-    public JSONMLParserConfiguration withMaxNestingDepth(int maxNestingDepth) {
+    public JSONMLParserConfiguration withMaxNestingDepth(final int maxNestingDepth) {
         return super.withMaxNestingDepth(maxNestingDepth);
     }
 }

@@ -4,12 +4,7 @@ package org.json;
 Public Domain.
 */
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * Use this annotation on a getter method to override the Bean name
@@ -17,8 +12,8 @@ import java.lang.annotation.Target;
  * will have the Bean parser fall back to the default field name processing.
  */
 @Documented
-@Retention(RUNTIME)
-@Target({METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD})
 public @interface JSONPropertyName {
     /**
      * The value of the JSON property.

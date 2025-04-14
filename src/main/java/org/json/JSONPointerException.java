@@ -19,7 +19,7 @@ public class JSONPointerException extends JSONException {
      *
      * @param message The detail message describing the reason for the exception.
      */
-    public JSONPointerException(String message) {
+    public JSONPointerException(final String message) {
         super(message);
     }
 
@@ -29,7 +29,7 @@ public class JSONPointerException extends JSONException {
      * @param message The detail message describing the reason for the exception.
      * @param cause   The cause of the exception.
      */
-    public JSONPointerException(String message, Throwable cause) {
+    public JSONPointerException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

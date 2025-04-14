@@ -30,11 +30,11 @@ public class CookieList {
      * @return A JSONObject
      * @throws JSONException if a called function fails
      */
-    public static JSONObject toJSONObject(String string) throws JSONException {
-        JSONObject jo = new JSONObject();
-        JSONTokener x = new JSONTokener(string);
+    public static JSONObject toJSONObject(final String string) throws JSONException {
+        final JSONObject jo = new JSONObject();
+        final JSONTokener x = new JSONTokener(string);
         while (x.more()) {
-            String name = Cookie.unescape(x.nextTo('='));
+            final String name = Cookie.unescape(x.nextTo('='));
             x.next('=');
             jo.put(name, Cookie.unescape(x.nextTo(';')));
             x.next();
@@ -51,7 +51,7 @@ public class CookieList {
      * @return A cookie list string
      * @throws JSONException if a called function fails
      */
-    public static String toString(JSONObject jo) throws JSONException {
+    public static String toString(final JSONObject jo) throws JSONException {
         boolean             isEndOfPair = false;
         final StringBuilder sb = new StringBuilder();
         // Don't use the new entrySet API to maintain Android support

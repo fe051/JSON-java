@@ -26,18 +26,18 @@ public class StringBuilderWriter extends Writer {
      *
      * @throws IllegalArgumentException If {@code initialSize} is negative
      */
-    public StringBuilderWriter(int initialSize) {
+    public StringBuilderWriter(final int initialSize) {
         builder = new StringBuilder(initialSize);
         lock = builder;
     }
 
     @Override
-    public void write(int c) {
+    public void write(final int c) {
         builder.append((char) c);
     }
 
     @Override
-    public void write(char[] cbuf, int offset, int length) {
+    public void write(final char[] cbuf, final int offset, final int length) {
         if ((offset < 0) || (offset > cbuf.length) || (length < 0) ||
                 ((offset + length) > cbuf.length) || ((offset + length) < 0)) {
             throw new IndexOutOfBoundsException();
@@ -48,23 +48,23 @@ public class StringBuilderWriter extends Writer {
     }
 
     @Override
-    public void write(String str) {
+    public void write(final String str) {
         builder.append(str);
     }
 
     @Override
-    public void write(String str, int offset, int length) {
+    public void write(final String str, final int offset, final int length) {
         builder.append(str, offset, offset + length);
     }
 
     @Override
-    public StringBuilderWriter append(CharSequence csq) {
+    public StringBuilderWriter append(final CharSequence csq) {
         write(String.valueOf(csq));
         return this;
     }
 
     @Override
-    public StringBuilderWriter append(CharSequence csq, int start, int end) {
+    public StringBuilderWriter append(CharSequence csq, final int start, final int end) {
         if (csq == null) {
             csq = "null";
         }
@@ -72,7 +72,7 @@ public class StringBuilderWriter extends Writer {
     }
 
     @Override
-    public StringBuilderWriter append(char c) {
+    public StringBuilderWriter append(final char c) {
         write(c);
         return this;
     }

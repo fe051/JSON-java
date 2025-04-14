@@ -54,10 +54,10 @@ public class HTTP {
      * of the XML string.
      * @throws JSONException if a called function fails
      */
-    public static JSONObject toJSONObject(String string) throws JSONException {
-        JSONObject     jo = new JSONObject();
-        HTTPTokener    x = new HTTPTokener(string);
-        String         token;
+    public static JSONObject toJSONObject(final String string) throws JSONException {
+        final JSONObject     jo = new JSONObject();
+        final HTTPTokener    x = new HTTPTokener(string);
+        final String         token;
 
         token = x.nextToken();
         if (token.toUpperCase(Locale.ROOT).startsWith("HTTP")) {
@@ -81,7 +81,7 @@ public class HTTP {
 // Fields
 
         while (x.more()) {
-            String name = x.nextTo(':');
+            final String name = x.nextTo(':');
             x.next(':');
             jo.put(name, x.nextTo('\0'));
             x.next();
@@ -110,8 +110,8 @@ public class HTTP {
      * @throws JSONException if the object does not contain enough
      *  information.
      */
-    public static String toString(JSONObject jo) throws JSONException {
-        StringBuilder       sb = new StringBuilder();
+    public static String toString(final JSONObject jo) throws JSONException {
+        final StringBuilder       sb = new StringBuilder();
         if (jo.has("Status-Code") && jo.has("Reason-Phrase")) {
             sb.append(jo.getString("HTTP-Version"));
             sb.append(' ');
@@ -129,20 +129,20 @@ public class HTTP {
         } else {
             throw new JSONException("Not enough material for an HTTP header.");
         }
-        sb.append(CRLF);
+        sb.append(HTTP.CRLF);
         // Don't use the new entrySet API to maintain Android support
         for (final String key : jo.keySet()) {
-            String value = jo.optString(key);
+            final String value = jo.optString(key);
             if (!"HTTP-Version".equals(key)      && !"Status-Code".equals(key) &&
                     !"Reason-Phrase".equals(key) && !"Method".equals(key) &&
                     !"Request-URI".equals(key)   && !JSONObject.NULL.equals(value)) {
                 sb.append(key);
                 sb.append(": ");
                 sb.append(jo.optString(key));
-                sb.append(CRLF);
+                sb.append(HTTP.CRLF);
             }
         }
-        sb.append(CRLF);
+        sb.append(HTTP.CRLF);
         return sb.toString();
     }
 }

@@ -1,7 +1,5 @@
 package org.json;
 
-import static java.lang.String.format;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -72,7 +70,7 @@ public class JSONPointer {
          * @return {@code this}
          * @throws NullPointerException if {@code token} is null
          */
-        public Builder append(String token) {
+        public Builder append(final String token) {
             if (token == null) {
                 throw new NullPointerException("token cannot be null");
             }
@@ -87,7 +85,7 @@ public class JSONPointer {
          * @param arrayIndex the array index to be added to the token list
          * @return {@code this}
          */
-        public Builder append(int arrayIndex) {
+        public Builder append(final int arrayIndex) {
             this.refTokens.add(String.valueOf(arrayIndex));
             return this;
         }
@@ -135,8 +133,8 @@ public class JSONPointer {
         if (pointer.startsWith("#/")) {
             refs = pointer.substring(2);
             try {
-                refs = URLDecoder.decode(refs, ENCODING);
-            } catch (UnsupportedEncodingException e) {
+                refs = URLDecoder.decode(refs, JSONPointer.ENCODING);
+            } catch (final UnsupportedEncodingException e) {
                 throw new RuntimeException(e);
             }
         } else if (pointer.startsWith("/")) {
@@ -156,17 +154,13 @@ public class JSONPointer {
                 this.refTokens.add("");
             } else if (slashIdx >= 0) {
                 final String token = refs.substring(prevSlashIdx, slashIdx);
-                this.refTokens.add(unescape(token));
+                this.refTokens.add(JSONPointer.unescape(token));
             } else {
                 // last item after separator, or no separator at all.
                 final String token = refs.substring(prevSlashIdx);
-                this.refTokens.add(unescape(token));
+                this.refTokens.add(JSONPointer.unescape(token));
             }
         } while (slashIdx >= 0);
-        // using split does not take into account consecutive separators or "ending nulls"
-        //for (String token : refs.split("/")) {
-        //    this.refTokens.add(unescape(token));
-        //}
     }
 
     /**
@@ -175,14 +169,14 @@ public class JSONPointer {
      * @param refTokens A list of strings representing the reference tokens for the JSON Pointer.
      *                  Each token identifies a step in the path to the targeted value.
      */
-    public JSONPointer(List<String> refTokens) {
+    public JSONPointer(final List<String> refTokens) {
         this.refTokens = new ArrayList<String>(refTokens);
     }
 
     /**
      * @see <a href="https://tools.ietf.org/html/rfc6901#section-3">rfc6901 section 3</a>
      */
-    private static String unescape(String token) {
+    private static String unescape(final String token) {
         return token.replace("~1", "/").replace("~0", "~");
     }
 
@@ -196,18 +190,18 @@ public class JSONPointer {
      * @return the result of the evaluation
      * @throws JSONPointerException if an error occurs during evaluation
      */
-    public Object queryFrom(Object document) throws JSONPointerException {
+    public Object queryFrom(final Object document) throws JSONPointerException {
         if (this.refTokens.isEmpty()) {
             return document;
         }
         Object current = document;
-        for (String token : this.refTokens) {
+        for (final String token : this.refTokens) {
             if (current instanceof JSONObject) {
-                current = ((JSONObject) current).opt(unescape(token));
+                current = ((JSONObject) current).opt(JSONPointer.unescape(token));
             } else if (current instanceof JSONArray) {
-                current = readByIndexToken(current, token);
+                current = JSONPointer.readByIndexToken(current, token);
             } else {
-                throw new JSONPointerException(format(
+                throw new JSONPointerException(String.format(
                         "value [%s] is not an array or object therefore its key %s cannot be resolved", current,
                         token));
             }
@@ -222,21 +216,21 @@ public class JSONPointer {
      * @return the matched object. If no matching item is found a
      * @throws JSONPointerException is thrown if the index is out of bounds
      */
-    private static Object readByIndexToken(Object current, String indexToken) throws JSONPointerException {
+    private static Object readByIndexToken(final Object current, final String indexToken) throws JSONPointerException {
         try {
-            int index = Integer.parseInt(indexToken);
-            JSONArray currentArr = (JSONArray) current;
+            final int index = Integer.parseInt(indexToken);
+            final JSONArray currentArr = (JSONArray) current;
             if (index >= currentArr.length()) {
-                throw new JSONPointerException(format("index %s is out of bounds - the array has %d elements", indexToken,
+                throw new JSONPointerException(String.format("index %s is out of bounds - the array has %d elements", indexToken,
                         Integer.valueOf(currentArr.length())));
             }
             try {
 				return currentArr.get(index);
-			} catch (JSONException e) {
+			} catch (final JSONException e) {
 				throw new JSONPointerException("Error reading value at index position " + index, e);
 			}
-        } catch (NumberFormatException e) {
-            throw new JSONPointerException(format("%s is not an array index", indexToken), e);
+        } catch (final NumberFormatException e) {
+            throw new JSONPointerException(String.format("%s is not an array index", indexToken), e);
         }
     }
 
@@ -246,9 +240,9 @@ public class JSONPointer {
      */
     @Override
     public String toString() {
-        StringBuilder rval = new StringBuilder("");
-        for (String token: this.refTokens) {
-            rval.append('/').append(escape(token));
+        final StringBuilder rval = new StringBuilder();
+        for (final String token: this.refTokens) {
+            rval.append('/').append(JSONPointer.escape(token));
         }
         return rval.toString();
     }
@@ -262,7 +256,7 @@ public class JSONPointer {
      * 
      * @see <a href="https://tools.ietf.org/html/rfc6901#section-3">rfc6901 section 3</a>
      */
-    private static String escape(String token) {
+    private static String escape(final String token) {
         return token.replace("~", "~0")
                 .replace("/", "~1");
     }
@@ -274,12 +268,12 @@ public class JSONPointer {
      */
     public String toURIFragment() {
         try {
-            StringBuilder rval = new StringBuilder("#");
-            for (String token : this.refTokens) {
-                rval.append('/').append(URLEncoder.encode(token, ENCODING));
+            final StringBuilder rval = new StringBuilder("#");
+            for (final String token : this.refTokens) {
+                rval.append('/').append(URLEncoder.encode(token, JSONPointer.ENCODING));
             }
             return rval.toString();
-        } catch (UnsupportedEncodingException e) {
+        } catch (final UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }

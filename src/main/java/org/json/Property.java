@@ -26,14 +26,14 @@ public class Property {
      * @return JSONObject
      * @throws JSONException if a called function has an error
      */
-    public static JSONObject toJSONObject(java.util.Properties properties) throws JSONException {
+    public static JSONObject toJSONObject(final java.util.Properties properties) throws JSONException {
         // can't use the new constructor for Android support
         // JSONObject jo = new JSONObject(properties == null ? 0 : properties.size());
-        JSONObject jo = new JSONObject();
+        final JSONObject jo = new JSONObject();
         if (properties != null && !properties.isEmpty()) {
-            Enumeration<?> enumProperties = properties.propertyNames();
+            final Enumeration<?> enumProperties = properties.propertyNames();
             while(enumProperties.hasMoreElements()) {
-                String name = (String)enumProperties.nextElement();
+                final String name = (String)enumProperties.nextElement();
                 jo.put(name, properties.getProperty(name));
             }
         }
@@ -46,12 +46,12 @@ public class Property {
      * @return java.util.Properties
      * @throws JSONException if a called function has an error
      */
-    public static Properties toProperties(JSONObject jo)  throws JSONException {
-        Properties  properties = new Properties();
+    public static Properties toProperties(final JSONObject jo)  throws JSONException {
+        final Properties  properties = new Properties();
         if (jo != null) {
         	// Don't use the new entrySet API to maintain Android support
             for (final String key : jo.keySet()) {
-                Object value = jo.opt(key);
+                final Object value = jo.opt(key);
                 if (!JSONObject.NULL.equals(value)) {
                     properties.put(key, value.toString());
                 }

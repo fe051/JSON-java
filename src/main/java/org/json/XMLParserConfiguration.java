@@ -133,7 +133,7 @@ public class XMLParserConfiguration extends ParserConfiguration {
      */
     @Deprecated
     public XMLParserConfiguration (final boolean keepStrings, final String cDataTagName) {
-        super(keepStrings, DEFAULT_MAXIMUM_NESTING_DEPTH);
+        super(keepStrings, ParserConfiguration.DEFAULT_MAXIMUM_NESTING_DEPTH);
         this.cDataTagName = cDataTagName;
         this.convertNilAttributeToNull = false;
     }
@@ -152,7 +152,7 @@ public class XMLParserConfiguration extends ParserConfiguration {
      */
     @Deprecated
     public XMLParserConfiguration (final boolean keepStrings, final String cDataTagName, final boolean convertNilAttributeToNull) {
-        super(false, DEFAULT_MAXIMUM_NESTING_DEPTH);
+        super(false, ParserConfiguration.DEFAULT_MAXIMUM_NESTING_DEPTH);
         this.keepNumberAsString = keepStrings;
         this.keepBooleanAsString = keepStrings;
         this.cDataTagName = cDataTagName;
@@ -223,7 +223,7 @@ public class XMLParserConfiguration extends ParserConfiguration {
     @SuppressWarnings("unchecked")
     @Override
     public XMLParserConfiguration withKeepStrings(final boolean newVal) {
-        XMLParserConfiguration newConfig = this.clone();
+        final XMLParserConfiguration newConfig = this.clone();
         newConfig.keepStrings = newVal;
         newConfig.keepNumberAsString = newVal;
         newConfig.keepBooleanAsString = newVal;
@@ -240,7 +240,7 @@ public class XMLParserConfiguration extends ParserConfiguration {
      * @return The existing configuration will not be modified. A new configuration is returned.
      */
     public XMLParserConfiguration withKeepNumberAsString(final boolean newVal) {
-        XMLParserConfiguration newConfig = this.clone();
+        final XMLParserConfiguration newConfig = this.clone();
         newConfig.keepNumberAsString = newVal;
         newConfig.keepStrings = newConfig.keepBooleanAsString && newConfig.keepNumberAsString;
         return newConfig;
@@ -256,7 +256,7 @@ public class XMLParserConfiguration extends ParserConfiguration {
      * @return The existing configuration will not be modified. A new configuration is returned.
      */
     public XMLParserConfiguration withKeepBooleanAsString(final boolean newVal) {
-        XMLParserConfiguration newConfig = this.clone();
+        final XMLParserConfiguration newConfig = this.clone();
         newConfig.keepBooleanAsString = newVal;
         newConfig.keepStrings = newConfig.keepBooleanAsString && newConfig.keepNumberAsString;
         return newConfig;
@@ -304,7 +304,7 @@ public class XMLParserConfiguration extends ParserConfiguration {
      * @return The existing configuration will not be modified. A new configuration is returned.
      */
     public XMLParserConfiguration withcDataTagName(final String newVal) {
-        XMLParserConfiguration newConfig = this.clone();
+        final XMLParserConfiguration newConfig = this.clone();
         newConfig.cDataTagName = newVal;
         return newConfig;
     }
@@ -331,7 +331,7 @@ public class XMLParserConfiguration extends ParserConfiguration {
      * @return The existing configuration will not be modified. A new configuration is returned.
      */
     public XMLParserConfiguration withConvertNilAttributeToNull(final boolean newVal) {
-        XMLParserConfiguration newConfig = this.clone();
+        final XMLParserConfiguration newConfig = this.clone();
         newConfig.convertNilAttributeToNull = newVal;
         return newConfig;
     }
@@ -357,8 +357,8 @@ public class XMLParserConfiguration extends ParserConfiguration {
      * @return The existing configuration will not be modified. A new configuration is returned.
      */
     public XMLParserConfiguration withXsiTypeMap(final Map<String, XMLXsiTypeConverter<?>> xsiTypeMap) {
-        XMLParserConfiguration newConfig = this.clone();
-        Map<String, XMLXsiTypeConverter<?>> cloneXsiTypeMap = new HashMap<String, XMLXsiTypeConverter<?>>(xsiTypeMap);
+        final XMLParserConfiguration newConfig = this.clone();
+        final Map<String, XMLXsiTypeConverter<?>> cloneXsiTypeMap = new HashMap<String, XMLXsiTypeConverter<?>>(xsiTypeMap);
         newConfig.xsiTypeMap = Collections.unmodifiableMap(cloneXsiTypeMap);
         return newConfig;
     }
@@ -379,8 +379,8 @@ public class XMLParserConfiguration extends ParserConfiguration {
      * @return The existing configuration will not be modified. A new configuration is returned.
      */
     public XMLParserConfiguration withForceList(final Set<String> forceList) {
-        XMLParserConfiguration newConfig = this.clone();
-        Set<String> cloneForceList = new HashSet<String>(forceList);
+        final XMLParserConfiguration newConfig = this.clone();
+        final Set<String> cloneForceList = new HashSet<String>(forceList);
         newConfig.forceList = Collections.unmodifiableSet(cloneForceList);
         return newConfig;
     }
@@ -396,7 +396,7 @@ public class XMLParserConfiguration extends ParserConfiguration {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public XMLParserConfiguration withMaxNestingDepth(int maxNestingDepth) {
+    public XMLParserConfiguration withMaxNestingDepth(final int maxNestingDepth) {
         return super.withMaxNestingDepth(maxNestingDepth);
     }
 
@@ -405,8 +405,8 @@ public class XMLParserConfiguration extends ParserConfiguration {
      * @param closeEmptyTag new value for the closeEmptyTag property
      * @return same instance of configuration with empty tag config updated
      */
-    public XMLParserConfiguration withCloseEmptyTag(boolean closeEmptyTag){
-        XMLParserConfiguration clonedConfiguration = this.clone();
+    public XMLParserConfiguration withCloseEmptyTag(final boolean closeEmptyTag){
+        final XMLParserConfiguration clonedConfiguration = this.clone();
         clonedConfiguration.closeEmptyTag = closeEmptyTag;
         return clonedConfiguration;
     }
@@ -418,8 +418,8 @@ public class XMLParserConfiguration extends ParserConfiguration {
      * @param shouldTrimWhiteSpace boolean to set trimming on or off. Off is default.
      * @return same instance of configuration with empty tag config updated
      */
-    public XMLParserConfiguration withShouldTrimWhitespace(boolean shouldTrimWhiteSpace){
-        XMLParserConfiguration clonedConfiguration = this.clone();
+    public XMLParserConfiguration withShouldTrimWhitespace(final boolean shouldTrimWhiteSpace){
+        final XMLParserConfiguration clonedConfiguration = this.clone();
         clonedConfiguration.shouldTrimWhiteSpace = shouldTrimWhiteSpace;
         return clonedConfiguration;
     }

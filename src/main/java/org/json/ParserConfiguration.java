@@ -34,7 +34,7 @@ public class ParserConfiguration {
      */
     public ParserConfiguration() {
         this.keepStrings = false;
-        this.maxNestingDepth = DEFAULT_MAXIMUM_NESTING_DEPTH;
+        this.maxNestingDepth = ParserConfiguration.DEFAULT_MAXIMUM_NESTING_DEPTH;
     }
 
     /**
@@ -84,7 +84,7 @@ public class ParserConfiguration {
      */
     @SuppressWarnings("unchecked")
     public <T extends ParserConfiguration> T withKeepStrings(final boolean newVal) {
-        T newConfig = (T) this.clone();
+        final T newConfig = (T) this.clone();
         newConfig.keepStrings = newVal;
         return newConfig;
     }
@@ -112,15 +112,9 @@ public class ParserConfiguration {
      * @return The existing configuration will not be modified. A new configuration is returned.
      */
     @SuppressWarnings("unchecked")
-    public <T extends ParserConfiguration> T withMaxNestingDepth(int maxNestingDepth) {
-        T newConfig = (T) this.clone();
-
-        if (maxNestingDepth > UNDEFINED_MAXIMUM_NESTING_DEPTH) {
-            newConfig.maxNestingDepth = maxNestingDepth;
-        } else {
-            newConfig.maxNestingDepth = UNDEFINED_MAXIMUM_NESTING_DEPTH;
-        }
-
+    public <T extends ParserConfiguration> T withMaxNestingDepth(final int maxNestingDepth) {
+        final T newConfig = (T) this.clone();
+        newConfig.maxNestingDepth = Math.max(maxNestingDepth, UNDEFINED_MAXIMUM_NESTING_DEPTH);
         return newConfig;
     }
 }
