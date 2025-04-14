@@ -71,7 +71,7 @@ public class JSONArray implements Iterable<Object> {
      * Construct an empty JSONArray.
      */
     public JSONArray() {
-        this.myArrayList = new ArrayList<Object>();
+        this.myArrayList = new ArrayList<>();
     }
 
     /**
@@ -225,9 +225,9 @@ public class JSONArray implements Iterable<Object> {
           throw new JSONException("JSONArray has reached recursion depth limit of " + jsonParserConfiguration.getMaxNestingDepth());
         }
         if (collection == null) {
-            this.myArrayList = new ArrayList<Object>();
+            this.myArrayList = new ArrayList<>();
         } else {
-            this.myArrayList = new ArrayList<Object>(collection.size());
+            this.myArrayList = new ArrayList<>(collection.size());
             this.addAll(collection, true, recursionDepth, jsonParserConfiguration);
         }
     }
@@ -254,11 +254,11 @@ public class JSONArray implements Iterable<Object> {
      */
     public JSONArray(final JSONArray array) {
         if (array == null) {
-            this.myArrayList = new ArrayList<Object>();
+            this.myArrayList = new ArrayList<>();
         } else {
             // shallow copy directly the internal array lists as any wrapping
             // should have been done already in the original JSONArray
-            this.myArrayList = new ArrayList<Object>(array.myArrayList);
+            this.myArrayList = new ArrayList<>(array.myArrayList);
         }
     }
 
@@ -296,7 +296,7 @@ public class JSONArray implements Iterable<Object> {
             throw new JSONException(
                     "JSONArray initial capacity cannot be negative.");
     	}
-    	this.myArrayList = new ArrayList<Object>(initialCapacity);
+    	this.myArrayList = new ArrayList<>(initialCapacity);
     }
 
     @Override
@@ -735,8 +735,7 @@ public class JSONArray implements Iterable<Object> {
         if (val == null) {
             return defaultValue;
         }
-        final double doubleValue = val.doubleValue();
-        return doubleValue;
+        return val.doubleValue();
     }
 
     /**
@@ -768,8 +767,7 @@ public class JSONArray implements Iterable<Object> {
         if (val == null) {
             return defaultValue;
         }
-        final Double doubleValue = val.doubleValue();
-        return doubleValue;
+        return val.doubleValue();
     }
 
     /**
@@ -801,8 +799,7 @@ public class JSONArray implements Iterable<Object> {
         if (val == null) {
             return defaultValue;
         }
-        final float floatValue = val.floatValue();
-        return floatValue;
+        return val.floatValue();
     }
 
     /**
@@ -834,8 +831,7 @@ public class JSONArray implements Iterable<Object> {
         if (val == null) {
             return defaultValue;
         }
-        final Float floatValue = val.floatValue();
-        return floatValue;
+        return val.floatValue();
     }
 
     /**
@@ -943,9 +939,7 @@ public class JSONArray implements Iterable<Object> {
                 return myE;
             }
             return Enum.valueOf(clazz, val.toString());
-        } catch (final IllegalArgumentException e) {
-            return defaultValue;
-        } catch (final NullPointerException e) {
+        } catch (final IllegalArgumentException | NullPointerException e) {
             return defaultValue;
         }
     }
@@ -1833,7 +1827,7 @@ public class JSONArray implements Iterable<Object> {
      * @return a java.util.List containing the elements of this array
      */
     public List<Object> toList() {
-        final List<Object> results = new ArrayList<Object>(this.myArrayList.size());
+        final List<Object> results = new ArrayList<>(this.myArrayList.size());
         for (final Object element : this.myArrayList) {
             if (element == null || JSONObject.NULL.equals(element)) {
                 results.add(null);

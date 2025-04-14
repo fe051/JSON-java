@@ -161,7 +161,7 @@ public class JSONObject {
         // implementations to rearrange their items for a faster element
         // retrieval based on associative access.
         // Therefore, an implementation mustn't rely on the order of the item.
-        this.map = new HashMap<String, Object>();
+        this.map = new HashMap<>();
     }
 
     /**
@@ -176,9 +176,9 @@ public class JSONObject {
      */
     public JSONObject(final JSONObject jo, final String ... names) {
         this(names.length);
-        for (int i = 0; i < names.length; i += 1) {
+        for (String name : names) {
             try {
-                this.putOnce(names[i], jo.opt(names[i]));
+                this.putOnce(name, jo.opt(name));
             } catch (final Exception ignore) {
             }
         }
@@ -323,9 +323,9 @@ public class JSONObject {
           throw new JSONException("JSONObject has reached recursion depth limit of " + jsonParserConfiguration.getMaxNestingDepth());
         }
         if (m == null) {
-            this.map = new HashMap<String, Object>();
+            this.map = new HashMap<>();
         } else {
-            this.map = new HashMap<String, Object>(m.size());
+            this.map = new HashMap<>(m.size());
         	for (final Map.Entry<?, ?> e : m.entrySet()) {
         	    if(e.getKey() == null) {
         	        throw new NullPointerException("Null key.");
@@ -425,8 +425,7 @@ public class JSONObject {
     public JSONObject(final Object object, final String ... names) {
         this(names.length);
         final Class<?> c = object.getClass();
-        for (int i = 0; i < names.length; i += 1) {
-            final String name = names[i];
+        for (final String name : names) {
             try {
                 this.putOpt(name, c.getField(name).get(object));
             } catch (final Exception ignore) {
@@ -519,7 +518,7 @@ public class JSONObject {
      * @param initialCapacity initial capacity of the internal map.
      */
     protected JSONObject(final int initialCapacity){
-        this.map = new HashMap<String, Object>(initialCapacity);
+        this.map = new HashMap<>(initialCapacity);
     }
 
     /**
@@ -1148,9 +1147,7 @@ public class JSONObject {
                 return myE;
             }
             return Enum.valueOf(clazz, val.toString());
-        } catch (final IllegalArgumentException e) {
-            return defaultValue;
-        } catch (final NullPointerException e) {
+        } catch (final IllegalArgumentException | NullPointerException e) {
             return defaultValue;
         }
     }
@@ -1456,8 +1453,7 @@ public class JSONObject {
         if (val == null) {
             return defaultValue;
         }
-        final float floatValue = val.floatValue();
-        return floatValue;
+        return val.floatValue();
     }
 
     /**
@@ -1489,8 +1485,7 @@ public class JSONObject {
         if (val == null) {
             return defaultValue;
         }
-        final Float floatValue = val.floatValue();
-        return floatValue;
+        return val.floatValue();
     }
 
     /**
@@ -1757,7 +1752,7 @@ public class JSONObject {
      *            If a getter returned a non-finite number.
      */
     private void populateMap(final Object bean) {
-        populateMap(bean, Collections.newSetFromMap(new IdentityHashMap<Object, Boolean>()));
+        populateMap(bean, Collections.newSetFromMap(new IdentityHashMap<>()));
     }
 
     private void populateMap(final Object bean, final Set<Object> objectsRecord) {
@@ -1805,9 +1800,7 @@ public class JSONObject {
                                 }
                             }
                         }
-                    } catch (final IllegalAccessException ignore) {
-                    } catch (final IllegalArgumentException ignore) {
-                    } catch (final InvocationTargetException ignore) {
+                    } catch (final IllegalAccessException | InvocationTargetException | IllegalArgumentException ignore) {
                     }
                 }
             }
@@ -1890,8 +1883,7 @@ public class JSONObject {
             try {
                 final Method im = i.getMethod(m.getName(), m.getParameterTypes());
                 return JSONObject.getAnnotation(im, annotationClass);
-            } catch (final SecurityException ex) {
-            } catch (final NoSuchMethodException ex) {
+            } catch (final SecurityException | NoSuchMethodException ex) {
             }
         }
 
@@ -1903,9 +1895,7 @@ public class JSONObject {
             return JSONObject.getAnnotation(
                     c.getSuperclass().getMethod(m.getName(), m.getParameterTypes()),
                     annotationClass);
-        } catch (final SecurityException ex) {
-            return null;
-        } catch (final NoSuchMethodException ex) {
+        } catch (final SecurityException | NoSuchMethodException ex) {
             return null;
         }
     }
@@ -1946,8 +1936,7 @@ public class JSONObject {
                     // since the annotation was on the interface, add 1
                     return d + 1;
                 }
-            } catch (final SecurityException ex) {
-            } catch (final NoSuchMethodException ex) {
+            } catch (final SecurityException | NoSuchMethodException ex) {
             }
         }
 
@@ -1964,9 +1953,7 @@ public class JSONObject {
                 return d + 1;
             }
             return -1;
-        } catch (final SecurityException ex) {
-            return -1;
-        } catch (final NoSuchMethodException ex) {
+        } catch (final SecurityException | NoSuchMethodException ex) {
             return -1;
         }
     }
@@ -2436,10 +2423,7 @@ public class JSONObject {
     private static boolean numberIsFinite(final Number n) {
         if (n instanceof Double && (((Double) n).isInfinite() || ((Double) n).isNaN())) {
             return false;
-        } else if (n instanceof Float && (((Float) n).isInfinite() || ((Float) n).isNaN())) {
-            return false;
-        }
-        return true;
+        } else return !(n instanceof Float) || (!((Float) n).isInfinite() && !((Float) n).isNaN());
     }
 
     /**
@@ -2517,7 +2501,7 @@ public class JSONObject {
                 try {
                     final BigDecimal bd = new BigDecimal(val);
                     if(initial == '-' && BigDecimal.ZERO.compareTo(bd)==0) {
-                        return Double.valueOf(-0.0);
+                        return -0.0;
                     }
                     return bd;
                 } catch (final NumberFormatException retryAsDouble) {
@@ -2556,10 +2540,10 @@ public class JSONObject {
             // long lived.
             final BigInteger bi = new BigInteger(val);
             if(bi.bitLength() <= 31){
-                return Integer.valueOf(bi.intValue());
+                return bi.intValue();
             }
             if(bi.bitLength() <= 63){
-                return Long.valueOf(bi.longValue());
+                return bi.longValue();
             }
             return bi;
         }
@@ -2941,7 +2925,7 @@ public class JSONObject {
      * @return a java.util.Map containing the entries of this object
      */
     public Map<String, Object> toMap() {
-        final Map<String, Object> results = new HashMap<String, Object>();
+        final Map<String, Object> results = new HashMap<>();
         for (final Map.Entry<String, Object> entry : this.entrySet()) {
             final Object value;
             if (entry.getValue() == null || JSONObject.NULL.equals(entry.getValue())) {

@@ -357,7 +357,7 @@ public class XMLParserConfiguration extends ParserConfiguration {
      */
     public XMLParserConfiguration withXsiTypeMap(final Map<String, XMLXsiTypeConverter<?>> xsiTypeMap) {
         final XMLParserConfiguration newConfig = this.clone();
-        final Map<String, XMLXsiTypeConverter<?>> cloneXsiTypeMap = new HashMap<String, XMLXsiTypeConverter<?>>(xsiTypeMap);
+        final Map<String, XMLXsiTypeConverter<?>> cloneXsiTypeMap = new HashMap<>(xsiTypeMap);
         newConfig.xsiTypeMap = Collections.unmodifiableMap(cloneXsiTypeMap);
         return newConfig;
     }
@@ -379,7 +379,7 @@ public class XMLParserConfiguration extends ParserConfiguration {
      */
     public XMLParserConfiguration withForceList(final Set<String> forceList) {
         final XMLParserConfiguration newConfig = this.clone();
-        final Set<String> cloneForceList = new HashSet<String>(forceList);
+        final Set<String> cloneForceList = new HashSet<>(forceList);
         newConfig.forceList = Collections.unmodifiableSet(cloneForceList);
         return newConfig;
     }
