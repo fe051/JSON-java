@@ -15,12 +15,6 @@ Public Domain.
 public class JSONML {
 
     /**
-     * Constructs a new JSONML object.
-     */
-    public JSONML() {
-    }
-
-    /**
      * Parse XML values and store them in a JSONArray.
      * @param x       The XMLTokener containing the source string.
      * @param arrayForm true if array form, false if object form.
@@ -190,7 +184,7 @@ public class JSONML {
                             newjo.accumulate(attribute, "");
                         }
                     }
-                    if (arrayForm && newjo.length() > 0) {
+                    if (arrayForm && !newjo.isEmpty()) {
                         newja.put(newjo);
                     }
 
@@ -225,7 +219,7 @@ public class JSONML {
                                         "' and '" + closeTag + "'");
                             }
                             tagName = null;
-                            if (!arrayForm && newja.length() > 0) {
+                            if (!arrayForm && !newja.isEmpty()) {
                                 newjo.put("childNodes", newja);
                             }
                             if (ja == null) {
@@ -560,7 +554,7 @@ public class JSONML {
                     } else if (object instanceof JSONArray) {
                         sb.append(JSONML.toString((JSONArray)object));
                     } else {
-                        sb.append(object.toString());
+                        sb.append(object);
                     }
                 }
             } while (i < length);
@@ -639,7 +633,7 @@ public class JSONML {
                     } else if (object instanceof JSONArray) {
                         sb.append(JSONML.toString((JSONArray)object));
                     } else {
-                        sb.append(object.toString());
+                        sb.append(object);
                     }
                 }
             }

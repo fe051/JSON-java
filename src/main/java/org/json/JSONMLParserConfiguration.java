@@ -6,7 +6,7 @@ Public Domain.
 /**
  * Configuration object for the XML to JSONML parser. The configuration is immutable.
  */
-@SuppressWarnings({""})
+@SuppressWarnings("")
 public class JSONMLParserConfiguration extends ParserConfiguration {
 
     /**
@@ -25,7 +25,6 @@ public class JSONMLParserConfiguration extends ParserConfiguration {
      * Default parser configuration. Does not keep strings (tries to implicitly convert values).
      */
     public JSONMLParserConfiguration() {
-        super();
         this.maxNestingDepth = JSONMLParserConfiguration.DEFAULT_MAXIMUM_NESTING_DEPTH;
     }
 

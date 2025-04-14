@@ -14,7 +14,7 @@ import java.util.Set;
  * Configuration object for the XML parser. The configuration is immutable.
  * @author AylwardJ
  */
-@SuppressWarnings({""})
+@SuppressWarnings("")
 public class XMLParserConfiguration extends ParserConfiguration {
 
     /**
@@ -85,7 +85,6 @@ public class XMLParserConfiguration extends ParserConfiguration {
      * values), and the CDATA Tag Name is "content". Trims whitespace.
      */
     public XMLParserConfiguration () {
-        super();
         this.cDataTagName = "content";
         this.convertNilAttributeToNull = false;
         this.xsiTypeMap = Collections.emptyMap();

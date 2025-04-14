@@ -26,12 +26,6 @@ Public Domain.
 public class CDL {
 
     /**
-     * Constructs a new CDL object.
-     */
-    public CDL() {
-    }
-
-    /**
      * Get the next value. The value can be wrapped in quotes. The value can
      * be empty.
      * @param x A JSONTokener of the source text.
@@ -102,7 +96,7 @@ public class CDL {
             char c = x.next();
             if (value != null) {
                 ja.put(value);
-            } else if (ja.length() == 0 && c != delimiter) {
+            } else if (ja.isEmpty() && c != delimiter) {
                 return null;
             } else {
                 // This line accounts for CSV ending with no newline
@@ -183,7 +177,7 @@ public class CDL {
             final Object object = ja.opt(i);
             if (object != null) {
                 final String string = object.toString();
-                if (string.length() > 0 && (string.indexOf(delimiter) >= 0 ||
+                if (!string.isEmpty() && (string.indexOf(delimiter) >= 0 ||
                         string.indexOf('\n') >= 0 || string.indexOf('\r') >= 0 ||
                         string.indexOf(0) >= 0 || string.charAt(0) == '"')) {
                     sb.append('"');
@@ -297,7 +291,7 @@ public class CDL {
      * @throws JSONException if a called function fails
      */
     public static JSONArray toJSONArray(final JSONArray names, final JSONTokener x, final char delimiter) throws JSONException {
-        if (names == null || names.length() == 0) {
+        if (names == null || names.isEmpty()) {
             return null;
         }
         final JSONArray ja = new JSONArray();
@@ -308,7 +302,7 @@ public class CDL {
             }
             ja.put(jo);
         }
-        if (ja.length() == 0) {
+        if (ja.isEmpty()) {
             return null;
         }
 
@@ -382,7 +376,7 @@ public class CDL {
      * @throws JSONException if a called function fails
      */
     public static String toString(final JSONArray names, final JSONArray ja, final char delimiter) throws JSONException {
-        if (names == null || names.length() == 0) {
+        if (names == null || names.isEmpty()) {
             return null;
         }
         final StringBuilder sb = new StringBuilder();

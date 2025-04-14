@@ -20,12 +20,6 @@ import java.util.Iterator;
 @SuppressWarnings("boxing")
 public class XML {
 
-    /**
-     * Constructs a new XML object.
-     */
-    public XML() {
-    }
-
     /** The Character '&amp;'. */
     public static final Character AMP = '&';
 
@@ -79,7 +73,7 @@ public class XML {
             @Override
             public Iterator<Integer> iterator() {
                 return new Iterator<Integer>() {
-                    private int nextIndex = 0;
+                    private int nextIndex;
                     private int length = string.length();
 
                     @Override
@@ -282,7 +276,7 @@ public class XML {
                 if ("CDATA".equals(token)) {
                     if (x.next() == '[') {
                         string = x.nextCDATA();
-                        if (string.length() > 0) {
+                        if (!string.isEmpty()) {
                             context.accumulate(config.getcDataTagName(), string);
                         }
                         return false;
@@ -386,7 +380,7 @@ public class XML {
                         // Force the value to be an array
                         if (nilAttributeFound) {
                             context.append(tagName, JSONObject.NULL);
-                        } else if (jsonObject.length() > 0) {
+                        } else if (!jsonObject.isEmpty()) {
                             context.append(tagName, jsonObject);
                         } else {
                             context.put(tagName, new JSONArray());
@@ -394,7 +388,7 @@ public class XML {
                     } else {
                         if (nilAttributeFound) {
                             context.accumulate(tagName, JSONObject.NULL);
-                        } else if (jsonObject.length() > 0) {
+                        } else if (!jsonObject.isEmpty()) {
                             context.accumulate(tagName, jsonObject);
                         } else {
                             context.accumulate(tagName, "");
@@ -413,7 +407,7 @@ public class XML {
                             return false;
                         } else if (token instanceof String) {
                             string = (String) token;
-                            if (string.length() > 0) {
+                            if (!string.isEmpty()) {
                                 if(xmlXsiTypeConverter != null) {
                                     jsonObject.accumulate(config.getcDataTagName(),
                                             XML.stringToValue(string, xmlXsiTypeConverter));
@@ -444,7 +438,7 @@ public class XML {
                             if (XML.parse(x, jsonObject, tagName, config, currentNestingDepth + 1)) {
                                 if (config.getForceList().contains(tagName)) {
                                     // Force the value to be an array
-                                    if (jsonObject.length() == 0) {
+                                    if (jsonObject.isEmpty()) {
                                         context.put(tagName, new JSONArray());
                                     } else if (jsonObject.length() == 1
                                             && jsonObject.opt(config.getcDataTagName()) != null) {
@@ -453,7 +447,7 @@ public class XML {
                                         context.append(tagName, jsonObject);
                                     }
                                 } else {
-                                    if (jsonObject.length() == 0) {
+                                    if (jsonObject.isEmpty()) {
                                         context.accumulate(tagName, "");
                                     } else if (jsonObject.length() == 1
                                             && jsonObject.opt(config.getcDataTagName()) != null) {
@@ -1059,7 +1053,7 @@ public class XML {
         final String indentationSuffix = (indentFactor > 0) ? "\n" : "";
         if(tagName == null){
             return XML.indent(indent) + "\"" + string + "\"" + indentationSuffix;
-        } else if(string.length() == 0){
+        } else if(string.isEmpty()){
             return XML.indent(indent) + "<" + tagName + "/>" + indentationSuffix;
         } else {
             return XML.indent(indent) + "<" + tagName

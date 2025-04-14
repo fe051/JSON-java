@@ -6,7 +6,7 @@ Public Domain.
 /**
  * Configuration base object for parsers. The configuration is immutable.
  */
-@SuppressWarnings({""})
+@SuppressWarnings("")
 public class ParserConfiguration {
     /**
      * Used to indicate there's no defined limit to the maximum nesting depth when parsing a document.
@@ -114,7 +114,7 @@ public class ParserConfiguration {
     @SuppressWarnings("unchecked")
     public <T extends ParserConfiguration> T withMaxNestingDepth(final int maxNestingDepth) {
         final T newConfig = (T) this.clone();
-        newConfig.maxNestingDepth = Math.max(maxNestingDepth, UNDEFINED_MAXIMUM_NESTING_DEPTH);
+        newConfig.maxNestingDepth = Math.max(maxNestingDepth, ParserConfiguration.UNDEFINED_MAXIMUM_NESTING_DEPTH);
         return newConfig;
     }
 }

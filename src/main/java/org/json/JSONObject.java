@@ -15,7 +15,6 @@ import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 /**
@@ -327,7 +326,7 @@ public class JSONObject {
             this.map = new HashMap<String, Object>();
         } else {
             this.map = new HashMap<String, Object>(m.size());
-        	for (final Entry<?, ?> e : m.entrySet()) {
+        	for (final Map.Entry<?, ?> e : m.entrySet()) {
         	    if(e.getKey() == null) {
         	        throw new NullPointerException("Null key.");
         	    }
@@ -675,12 +674,12 @@ public class JSONObject {
     public boolean getBoolean(final String key) throws JSONException {
         final Object object = this.get(key);
         if (object.equals(Boolean.FALSE)
-                || (object instanceof String && ((String) object)
-                        .equalsIgnoreCase("false"))) {
+                || (object instanceof String && "false"
+                        .equalsIgnoreCase((String) object))) {
             return false;
         } else if (object.equals(Boolean.TRUE)
-                || (object instanceof String && ((String) object)
-                        .equalsIgnoreCase("true"))) {
+                || (object instanceof String && "true"
+                        .equalsIgnoreCase((String) object))) {
             return true;
         }
         throw JSONObject.wrongValueFormatException(key, "Boolean", object, null);
@@ -1023,7 +1022,7 @@ public class JSONObject {
      *
      * @return An Entry Set
      */
-    protected Set<Entry<String, Object>> entrySet() {
+    protected Set<Map.Entry<String, Object>> entrySet() {
         return this.map.entrySet();
     }
 
@@ -1845,7 +1844,7 @@ public class JSONObject {
         // if the first letter in the key is not uppercase, then skip.
         // This is to maintain backwards compatibility before PR406
         // (https://github.com/stleary/JSON-java/pull/406/)
-        if (key.length() == 0 || Character.isLowerCase(key.charAt(0))) {
+        if (key.isEmpty() || Character.isLowerCase(key.charAt(0))) {
             return null;
         }
         if (key.length() == 1) {
@@ -2359,7 +2358,7 @@ public class JSONObject {
             if (!this.keySet().equals(((JSONObject)other).keySet())) {
                 return false;
             }
-            for (final Entry<String,?> entry : this.entrySet()) {
+            for (final Map.Entry<String,?> entry : this.entrySet()) {
                 final String name = entry.getKey();
                 final Object valueThis = entry.getValue();
                 final Object valueOther = ((JSONObject)other).get(name);
@@ -2885,7 +2884,7 @@ public class JSONObject {
             writer.write('{');
 
             if (length == 1) {
-            	final Entry<String,?> entry = this.entrySet().iterator().next();
+            	final Map.Entry<String,?> entry = this.entrySet().iterator().next();
                 final String key = entry.getKey();
                 writer.write(JSONObject.quote(key));
                 writer.write(':');
@@ -2899,7 +2898,7 @@ public class JSONObject {
                 }
             } else if (length != 0) {
                 final int newIndent = indent + indentFactor;
-                for (final Entry<String,?> entry : this.entrySet()) {
+                for (final Map.Entry<String,?> entry : this.entrySet()) {
                     if (needsComma) {
                         writer.write(',');
                     }
@@ -2943,7 +2942,7 @@ public class JSONObject {
      */
     public Map<String, Object> toMap() {
         final Map<String, Object> results = new HashMap<String, Object>();
-        for (final Entry<String, Object> entry : this.entrySet()) {
+        for (final Map.Entry<String, Object> entry : this.entrySet()) {
             final Object value;
             if (entry.getValue() == null || JSONObject.NULL.equals(entry.getValue())) {
                 value = null;
@@ -3005,7 +3004,7 @@ public class JSONObject {
      * @return number without leading zeros
      */
     private static String removeLeadingZerosOfNumber(final String value){
-        if (value.equals("-")){return value;}
+        if ("-".equals(value)){return value;}
         final boolean negativeFirstChar = (value.charAt(0) == '-');
         int counter = negativeFirstChar ? 1:0;
         while (counter < value.length()){

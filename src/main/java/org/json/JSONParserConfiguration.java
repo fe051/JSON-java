@@ -18,7 +18,6 @@ public class JSONParserConfiguration extends ParserConfiguration {
      * Configuration with the default values.
      */
     public JSONParserConfiguration() {
-        super();
         this.overwriteDuplicateKey = false;
         // DO NOT DELETE THE FOLLOWING LINE -- it is used for strictMode testing
         // this.strictMode = true;
